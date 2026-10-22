@@ -2,7 +2,15 @@
 %%%      Section 3: Objective function                          %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function f = GHKT_Objective(x,A2t,A3t,At,Delta,K0,N,R0,S1_2000,S2_2000,Sbar,T,alpha,beta,gZ_en,gZd_y,gZBGP,gamma,kappa1,kappa2,kappa3,phi,phi0,phiL,rho,sigma,v,ypsilon)
+function f = GHKT_Objective(x,params)
+A2t = params.A2t; A3t = params.A3t; At = params.At; Delta = params.Delta;
+K0 = params.K0; N = params.N; R0 = params.R0; S1_2000 = params.S1_2000;
+S2_2000 = params.S2_2000; Sbar = params.Sbar; T = params.T;
+alpha = params.alpha; beta = params.beta; gZ_en = params.gZ_en;
+gZd_y = params.gZd_y; gZBGP = params.gZBGP; gamma = params.gamma;
+kappa1 = params.kappa1; kappa2 = params.kappa2; kappa3 = params.kappa3;
+phi = params.phi; phi0 = params.phi0; phiL = params.phiL; rho = params.rho;
+sigma = params.sigma; v = params.v; ypsilon = params.ypsilon;
 
 %%Compute consumption based on x = [{Kt+1},{Rt+1},{pi0t},{pi2t}]:
 %Step 1: Compute implied energy inputs
