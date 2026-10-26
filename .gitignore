@@ -39,3 +39,8 @@ src/ghkt_replication/figures/
 
 # except the saved optimum that GHKT_Main loads as the starting guess
 !src/ghkt_replication/x_ghkt_v1.mat
+
+# ghkt_cd_in_ces: results and figures are recreated by running the model
+src/ghkt_cd_in_ces/**/*.mat
+src/ghkt_cd_in_ces/figures/
+!src/ghkt_cd_in_ces/x_ghkt_v1.mat
