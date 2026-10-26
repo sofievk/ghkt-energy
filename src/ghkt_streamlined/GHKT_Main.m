@@ -359,11 +359,6 @@ temp_ghkt_v1 = temp;
 save('temp_ghkt_v1','temp_ghkt_v1');
 Kt1_ghkt_v1 = Kt1; 
 save('Kt1_ghkt_v1', 'Kt1_ghkt_v1'); 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%      Section 5: Graph Optimal Carbon Taxes     %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %% Self added: Extract
 r_ghkt_v1 = x(1:T-1);
 save('r_ghkt_v1','r_ghkt_v1');
@@ -374,6 +369,11 @@ save('N2_ghkt_v1', 'N2_ghkt_v1');
 N3_ghkt_v1 = x(2*(T-1)+T+1:2*(T-1)+2*T);
 save('N3_ghkt_v1','N3_ghkt_v1');
  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%      Section 5: Graph Optimal Carbon Taxes     %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %%Graph Carbon Tax-GDP Ratio%%
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
