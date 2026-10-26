@@ -34,8 +34,8 @@ notebooks/**/*.m
 Thumbs.db
 
 # ghkt_streamlined: results and figures are recreated by running the model
-src/ghkt_streamlined/**/*.mat
-src/ghkt_streamlined/figures/
+src/ghkt_replication/**/*.mat
+src/ghkt_replication/figures/
 
 # except the saved optimum that GHKT_Main loads as the starting guess
-!src/ghkt_streamlined/x_ghkt_v1.mat
+!src/ghkt_replication/x_ghkt_v1.mat

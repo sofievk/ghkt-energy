@@ -1,0 +1,37 @@
+Sensitivity Analysis for Golosov, Hassler, Krusell, and Tsyvinski (2014)
+Author: Lint Barrage (lint_barrage@brown.edu)
+
+The codes and files for the sensitivity analysis are as follows:
+
+1) Parameters and Main Analysis: GHKT_Main.m
+2) Objective Function: GHKT_Objective.m
+3) Constraints: GHKT_Constraints.m
+
+4) Saved primary output from different model runs is labeled as:
+"x_sigX_gX_bX_dX_notes.mat"
+where sigX indicates the value of sigma (e.g., sig1 = log preferences)
+where gX indicates the annual productivity growth rate (e.g., g0 = 0% growth)
+where bX indicates the annual discount factor (e.g., b985 = 1.5% pure rate of social time preference)
+where dX indicates the decadal depreciation rate (e.g., d1 = 100% depreciation)
+where notes indicate whether initial capital was re-calibrated (recalKO) or not (NOrecalK0) along with delta
+
+5) The corresponding optimal allocations and policy variables are
+provided in a separate folder "Saved Allocations". The labeling for these
+variables is analogous to the primary model output.
+
+PLEASE NOTE:
+- The code is NOT written to automatically loop over different parameter
+values and assumptions (e.g., whether to recalibrate initial capital K0
+when the depreciation rate is changed). There main file is set up to 
+produce one set of parameters with which the optimization routine proceeds.
+Alternative options for the calibration - such as different growth rates -
+are commented out with the "%" symbol. If one wishes to run a different
+scenario, one thus has to manually un-comment the relevant section of the 
+code and comment out the parts of the code one is replacing (e.g., 
+un-comment the assumption that the discount rate "beta=(.999)^(10)" and 
+comment out the currently active "beta=(.985)^10"), and then re-run the file.
+
+- The graph-generating code is also commented out to avoid confusion, as it
+calls on saved output for all the different variables (e.g., carbon taxes).
+However, in order to use the code, one simply needs to un-comment it and
+change the Matlab directory to the folder containing all the saved model output.
