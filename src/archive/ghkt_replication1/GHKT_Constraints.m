@@ -75,16 +75,13 @@ end
 Yt = zeros(T,1);
 Ct = zeros(T,1);
 Kt1 = zeros(T,1);
-Yt(1) = (K0^alpha)*(((1-x(2*(T-1)+1)-x(2*(T-1)+T+1))*N)^(1-alpha-v))*(energy(1)^v);
-Ct(1) = (1-x(1))*Yt(1);
+Yt(1) = At(1)*(exp((-gamma(1))*(St(1)-Sbar)))*(K0^alpha)*(((1-x(2*(T-1)+1)-x(2*(T-1)+T+1))*N)^(1-alpha-v))*(energy(1)^v);Ct(1) = (1-x(1))*Yt(1);
 Kt1(1) = x(1)*Yt(1)+(1-Delta)*K0;
 for i = 1:1:T-2;
-    Yt(1+i) = (Kt1(i)^alpha)*(((1-x(2*(T-1)+1+i)-x(2*(T-1)+T+1+i))*N)^(1-alpha-v))*(energy(1+i)^v);
-    Kt1(1+i) = x(1+i)*Yt(1+i)+(1-Delta)*Kt1(i);
+    Yt(1+i) = At(1+i)*(exp((-gamma(1+i))*(St(1+i)-Sbar)))*(Kt1(i)^alpha)*(((1-x(2*(T-1)+1+i)-x(2*(T-1)+T+1+i))*N)^(1-alpha-v))*(energy(1+i)^v);Kt1(1+i) = x(1+i)*Yt(1+i)+(1-Delta)*Kt1(i);
     Ct(1+i) = (1-x(i+1))*Yt(1+i); 
 end
-Yt(T) = (Kt1(T-1)^alpha)*(((1-x(2*(T-1)+T)-x(2*(T-1)+2*T))*N)^(1-alpha-v))*(energy(T)^v);
-theta = x(T-1);
+Yt(T) = At(T)*(exp((-gamma(T))*(St(T)-Sbar)))*(Kt1(T-1)^alpha)*(((1-x(2*(T-1)+T)-x(2*(T-1)+2*T))*N)^(1-alpha-v))*(energy(T)^v);theta = x(T-1);
 Ct(T) = Yt(T)*(1-theta);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
