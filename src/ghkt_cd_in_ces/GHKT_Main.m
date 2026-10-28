@@ -193,16 +193,13 @@ xlim([2020 2100])
 Yt = zeros(T,1);
 Ct = zeros(T,1);
 Kt1 = zeros(T,1);
-Yt(1) = At(1)*(exp((-gamma(1))*(St(1)-Sbar)))*(K0^alpha)*(((1-x(2*(T-1)+1)-x(2*(T-1)+T+1))*N)^(1-alpha-v))*(energy(1)^v);
-Ct(1) = (1-x(1))*Yt(1);
+Yt(1) = ProductionFunction(K0, (1-x(2*(T-1)+1)-x(2*(T-1)+T+1))*N, energy(1), exp((-gamma(1))*(St(1)-Sbar)), p);Ct(1) = (1-x(1))*Yt(1);
 Kt1(1) = x(1)*Yt(1)+(1-Delta)*K0;
 for i = 1:1:T-2;
-    Yt(1+i) = At(1+i)*(exp((-gamma(1+i))*(St(1+i)-Sbar)))*(Kt1(i)^alpha)*(((1-x(2*(T-1)+1+i)-x(2*(T-1)+T+1+i))*N)^(1-alpha-v))*(energy(1+i)^v);
-    Kt1(1+i) = x(1+i)*Yt(1+i)+(1-Delta)*Kt1(i);
+    Yt(1+i) = ProductionFunction(Kt1(i), (1-x(2*(T-1)+1+i)-x(2*(T-1)+T+1+i))*N, energy(1+i), exp((-gamma(1+i))*(St(1+i)-Sbar)), p);Kt1(1+i) = x(1+i)*Yt(1+i)+(1-Delta)*Kt1(i);
     Ct(1+i) = (1-x(i+1))*Yt(1+i); 
 end
-Yt(T) = At(T)*(exp((-gamma(T))*(St(T)-Sbar)))*(Kt1(T-1)^alpha)*(((1-x(2*(T-1)+T)-x(2*(T-1)+2*T))*N)^(1-alpha-v))*(energy(T)^v);
-theta = x(T-1);
+Yt(T) = ProductionFunction(Kt1(T-1), (1-x(2*(T-1)+T)-x(2*(T-1)+2*T))*N, energy(T), exp((-gamma(T))*(St(T)-Sbar)), p);theta = x(T-1);
 Ct(T) = Yt(T)*(1-theta);
 Kt1(T) = theta*Yt(T)+(1-Delta)*Kt1(T-1);
 
@@ -222,8 +219,7 @@ for i = 1:1:n;
     At(T+i) = At(T+i-1)*(1+gZd_y(T))^(1-alpha-v);   %Assumes productivity growth stays at period-T levels
     oiln(i) = ex_Oil*x(2*(T-1))*((1-ex_Oil)^i);     %Oil continues to be extracted at rate from period T-1
     En(i) = ((kappa1*oiln(i)^rho)+(kappa2*(coal(T)*(1+gZ_en)^i)^rho)+(kappa3*(wind(T)*(1+gZ_en)^i)^rho))^(1/rho);
-    Ytn(i) = At(T+i)*(exp((-gamma(T))*(St(T)-Sbar)))*(Ktn(i)^alpha)*(((1-x(2*(T-1)+2*T)-x(2*(T-1)+T))*N)^(1-alpha-v))*(En(i)^v);
-    Ct(T+i) = (1-theta)*Ytn(i);
+    Ytn(i) = ProductionFunction(Ktn(i), (1-x(2*(T-1)+2*T)-x(2*(T-1)+T))*N, En(i), exp((-gamma(T))*(St(T)-Sbar)), p);Ct(T+i) = (1-theta)*Ytn(i);
     Ktn(i+1) = theta*Ytn(i)+(1-Delta)*Ktn(i);
     Yt(T+i) = Ytn(i);
 end
@@ -316,17 +312,17 @@ xlim([2020 2100])
 
 
 %%Net-of-damages GDP
-load('Yt_ghkt_lf.mat','Yt_ghkt_lf');
-load('Yt_ghkt_v1.mat','Yt_ghkt_v1');
-net_gdp = zeros(T,1);
-for i = 1:1:T;
-    net_gdp_ghkt(i) = Yt_ghkt_v1(i)/Yt_ghkt_lf(i);
-end 
-z = 25; 
-figure; 
-plot(y2(1:z), net_gdp_ghkt(1:z),": ", 'LineWidth', 1.5);
-title('Net output: optimum versus laissez-faire');
-xlim([2000 2250])    
+% load('Yt_ghkt_lf.mat','Yt_ghkt_lf');
+% load('Yt_ghkt_v1.mat','Yt_ghkt_v1');
+% net_gdp = zeros(T,1);
+% for i = 1:1:T;
+%     net_gdp_ghkt(i) = Yt_ghkt_v1(i)/Yt_ghkt_lf(i);
+% end 
+% z = 25; 
+% figure; 
+% plot(y2(1:z), net_gdp_ghkt(1:z),": ", 'LineWidth', 1.5);
+% title('Net output: optimum versus laissez-faire');
+% xlim([2000 2250])    
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%      Section 4: Save Allocations and Carbon Taxes  %%%
@@ -362,10 +358,12 @@ save('Kt1_ghkt_v1', 'Kt1_ghkt_v1');
 %% Self added: Extract
 r_ghkt_v1 = x(1:T-1);
 save('r_ghkt_v1','r_ghkt_v1');
-oil_stock_ghkt_v1 = x(T:2*(T-1));
+oil_stock_ghkt_v1 = x(T:2*(T-1))  ;
 save('oil_stock_ghkt_v1','oil_stock_ghkt_v1');
 N2_ghkt_v1 = x(2*(T-1)+1:3*(T-1)-1);
 save('N2_ghkt_v1', 'N2_ghkt_v1');
 N3_ghkt_v1 = x(2*(T-1)+T+1:2*(T-1)+2*T);
 save('N3_ghkt_v1','N3_ghkt_v1');
  
+if ~isfolder('results'), mkdir('results'); end
+save(fullfile('results', ['results_' scenario '.mat']), '*_ghkt_v1', 'x', 'p');

@@ -43,6 +43,8 @@ arguments
     params.r2009 (1,1) double = 0.05
     params.delta (1,1) double = 1
     params.pi00 (1,1) double = 1
+    params.rho_prod (1,1) double = -1e-6
+
 
     % Time preference
     params.sigma (1,1) double = 1
@@ -122,10 +124,15 @@ A0 = (params.Y2009*10) / ...
     ((K0^params.alpha)*((params.N*params.pi00)^(1-params.alpha-params.v))*(E0^params.v)));
 At = zeros(params.T,1);
 At(1) = A0;
-
+Y0 = params.Y2009*10;
+D0 = exp((-gamma(1))*((params.S1_2000+params.S2_2000)-params.Sbar));
+alpha_V = params.alpha/(1-params.v);
+L0 = params.N*params.pi00;
 for i = 1:1:params.T-1
     At(i+1) = At(i)*(1+gZd_y(i))^(1-params.alpha-params.v);
 end
+
+
 
 %% Collect parameters
 
@@ -148,3 +155,7 @@ params.gZBGP = gZBGP;
 params.A2t = A2t;
 params.ypsilon = ypsilon;
 params.A3t = A3t;
+params.Y0 = Y0;
+params.D0 = D0;
+params.alpha_V = alpha_V;
+params.L0 = L0;
