@@ -2,7 +2,10 @@
 %%%      Section 1: Parameters        %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-p = LoadParams();
+if ~exist('rp','var'), rp = -1e-6; end                  % the only thing you change between runs
+p = LoadParams(rho_prod = rp);
+scenario = ['rho_' strrep(strrep(sprintf('%g',rp),'-','m'),'.','p')];
+
 A2t = p.A2t; A3t = p.A3t; At = p.At; Delta = p.Delta; K0 = p.K0; N = p.N; R0 = p.R0;
 S1_2000 = p.S1_2000; S2_2000 = p.S2_2000; Sbar = p.Sbar; T = p.T; alpha = p.alpha; beta = p.beta;
 gZBGP = p.gZBGP; gZ_en = p.gZ_en; gZd_y = p.gZd_y; gamma = p.gamma;
@@ -48,23 +51,23 @@ end
 %%Sigma=1%%
 %COMMENTED IN (TO LOAD PREVIOUS RESULT) 
 
-load('x_ghkt_v1.mat','x')
-
-%COMMENTED IN TO ENSURE X0 LOAD PREVIOUS RESULTS X
-x0 = x;
-
-%COMMENTED OUT (WAS ORIGINALLY COMMENTED IN)
-%%% OPTION 2: NEUTRAL STARTING POINT %%
-
-% x0 = zeros(vars,1);
-% for i = 1:1:T-1;
-%      x0(i) = 0.25;
-%      x0((T-1)+i) = R0-((R0/1.1)/T)*i;
-%      x0(2*(T-1)+i) = 0.002;
-%      x0(2*(T-1)+T+i) = 0.01;
-%  end
-%  x0(2*(T-1)+T) = 0.002;
-%  x0(2*(T-1)+T+T) = 0.01;
+if ~exist('start_mode','var'), start_mode = "saved"; end
+switch start_mode
+    case "saved"
+        s_ = load('x_ghkt_v1.mat','x'); x0 = s_.x;
+    case "previous"
+        x0 = x_prev;
+    case "neutral"
+        x0 = zeros(vars,1);
+        for i = 1:1:T-1
+            x0(i) = 0.25;
+            x0((T-1)+i) = R0-((R0/1.1)/T)*i;
+            x0(2*(T-1)+i) = 0.002;
+            x0(2*(T-1)+T+i) = 0.01;
+        end
+        x0(2*(T-1)+T) = 0.002;
+        x0(2*(T-1)+T+T) = 0.01;
+end
 
 %%Check Constraints and Objective Function Value at x0%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -366,4 +369,4 @@ N3_ghkt_v1 = x(2*(T-1)+T+1:2*(T-1)+2*T);
 save('N3_ghkt_v1','N3_ghkt_v1');
  
 if ~isfolder('results'), mkdir('results'); end
-save(fullfile('results', ['results_' scenario '.mat']), '*_ghkt_v1', 'x', 'p');
+save(fullfile('results', ['results_' scenario '.mat']), '*_ghkt_v1', 'x', 'p', 'exitflag', 'fval');
