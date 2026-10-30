@@ -3,8 +3,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if ~exist('rp','var'), rp = -1e-6; end                  % the only thing you change between runs
-p = LoadParams(rho_prod = rp);
+if ~exist('pf','var'), pf = "CDinCES"; end
+p = LoadParams(rho_prod = rp, pf_type = pf);
 scenario = ['rho_' strrep(strrep(sprintf('%g',rp),'-','m'),'.','p')];
+if exist('scenario_name','var'), scenario = scenario_name; end
 
 A2t = p.A2t; A3t = p.A3t; At = p.At; Delta = p.Delta; K0 = p.K0; N = p.N; R0 = p.R0;
 S1_2000 = p.S1_2000; S2_2000 = p.S2_2000; Sbar = p.Sbar; T = p.T; alpha = p.alpha; beta = p.beta;
@@ -358,6 +360,7 @@ temp_ghkt_v1 = temp;
 save('temp_ghkt_v1','temp_ghkt_v1');
 Kt1_ghkt_v1 = Kt1; 
 save('Kt1_ghkt_v1', 'Kt1_ghkt_v1'); 
+
 %% Self added: Extract
 r_ghkt_v1 = x(1:T-1);
 save('r_ghkt_v1','r_ghkt_v1');

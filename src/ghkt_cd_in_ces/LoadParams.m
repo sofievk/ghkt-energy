@@ -44,6 +44,7 @@ arguments
     params.delta (1,1) double = 1
     params.pi00 (1,1) double = 1
     params.rho_prod (1,1) double = -1e-6
+    params.pf_type (1,1) string = "CDinCES"
 
 
     % Time preference
@@ -127,6 +128,8 @@ At(1) = A0;
 Y0 = params.Y2009*10;
 D0 = exp((-gamma(1))*((params.S1_2000+params.S2_2000)-params.Sbar));
 alpha_V = params.alpha/(1-params.v);
+a_M = params.alpha + params.v;
+w_K = params.alpha/(params.alpha + params.v);
 L0 = params.N*params.pi00;
 for i = 1:1:params.T-1
     At(i+1) = At(i)*(1+gZd_y(i))^(1-params.alpha-params.v);
@@ -158,4 +161,6 @@ params.A3t = A3t;
 params.Y0 = Y0;
 params.D0 = D0;
 params.alpha_V = alpha_V;
+params.a_M = a_M;
+params.w_K = w_K;
 params.L0 = L0;
