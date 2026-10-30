@@ -104,8 +104,7 @@ for i = 1:1:n;
     At(T+i) = At(T+i-1)*(1+gZd_y(T+i-1))^(1-alpha-v);
     oiln(i) = ex_Oil*x(2*(T-1))*((1-ex_Oil)^i);
     En(i) = ((kappa1*oiln(i)^rho)+(kappa2*(coal(T)*(1+gZ_en)^i)^rho)+(kappa3*(wind(T)*(1+gZ_en)^i)^rho))^(1/rho);
-    Ytn(i) = At(T+i)*(exp((-gamma(T))*(St(T)-Sbar)))*(Ktn(i)^alpha)*(((1-x(2*(T-1)+2*T)-x(2*(T-1)+T))*N)^(1-alpha-v))*(En(i)^v);
-    Ct(T+i) = (1-theta)*Ytn(i);
+    Ytn(i) = ProductionFunction(Ktn(i), (1-x(2*(T-1)+2*T)-x(2*(T-1)+T))*N, En(i), exp((-gamma(T))*(St(T)-Sbar)), params); Ct(T+i) = (1-theta)*Ytn(i);
     Ktn(i+1) = theta*Ytn(i)+(1-Delta)*Ktn(i);
     Yt(T+i) = Ytn(i);
 end
