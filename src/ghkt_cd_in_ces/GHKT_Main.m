@@ -5,7 +5,7 @@
 if ~exist('rp','var'), rp = -1e-6; end                  % the only thing you change between runs
 if ~exist('pf','var'), pf = "CDinCES"; end
 p = LoadParams(rho_prod = rp, pf_type = pf);
-scenario = ['rho_' strrep(strrep(sprintf('%g',rp),'-','m'),'.','p')];
+scenario = [char(pf) '_rho' strrep(strrep(sprintf('%g',rp),'-','m'),'.','p')];
 if exist('scenario_name','var'), scenario = scenario_name; end
 
 A2t = p.A2t; A3t = p.A3t; At = p.At; Delta = p.Delta; K0 = p.K0; N = p.N; R0 = p.R0;
