@@ -8,6 +8,7 @@ S = cell(1,5);
 for k = 1:5, S{k} = load(fullfile('results', files(k)+".mat")); end
 y = S{1}.p.y; T = S{1}.p.T;
 
+
 %% 2. GDP, energy, temperature
 show = ["Yt_ghkt_v1","energy_ghkt_v1","temp_ghkt_v1"];
 titles = ["GDP","Energy","Temperature increase"];
@@ -18,8 +19,10 @@ for kv = 1:3
         v = S{k}.(show(kv)); v = v(:); m = min(numel(v),T);
         hs(k) = plot(y(1:m), v(1:m), sty{k}, 'Color',cols(k,:), 'LineWidth',lw(k), 'MarkerSize',5, 'MarkerIndices',1:3:m);
     end
+xlim([2010 2100])
 end
 legend(hs, names5, 'Location','best')
+
 
 %% 3. Utility (absolute numbers)
 figure; tiledlayout(1,2);
@@ -35,3 +38,14 @@ nexttile; wel = -cellfun(@(s) s.fval, S);
 bar(categorical(names5, names5), wel); title('Total welfare (-fval), higher is better')
 text(1:5, wel, string(round(wel,4)), 'HorizontalAlignment','center', 'VerticalAlignment','bottom')
 disp(table(names5', wel', 'VariableNames', {'model','welfare'}))
+
+%% 5. Quick plot: change var_name and which_scen, then run this section
+var_name   = "Yt_ghkt_v1";    % any name from the whos list
+which_scen = [1 2 3 4];             % 1 baseline, 2 CD, 3 Salg, 4 Leontief
+figure; hold on
+for k = which_scen
+    v = S{k}.(var_name); v = v(:); m = min(numel(v), T);
+    plot(y(1:m), v(1:m), sty{k}, 'Color',cols(k,:), 'LineWidth',lw(k), 'MarkerSize',5, 'MarkerIndices',1:2:m);
+end
+xlim([2010 2100])
+legend(names4(which_scen), 'Location','best'); title(strrep(var_name,'_',' '))
