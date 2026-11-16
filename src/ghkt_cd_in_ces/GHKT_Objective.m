@@ -78,14 +78,14 @@ end
 Yt = zeros(T,1);
 Ct = zeros(T,1);
 Kt1 = zeros(T,1);
-Yt(1) = ProductionFunction(K0, (1-x(2*(T-1)+1)-x(2*(T-1)+T+1))*N, energy(1), exp((-gamma(1))*(St(1)-Sbar)), params);Ct(1) = (1-x(1))*Yt(1);
+Yt(1) = ProductionFunction(K0, (1-x(2*(T-1)+1)-x(2*(T-1)+T+1))*N, params.A_E(1)*energy(1), exp((-gamma(1))*(St(1)-Sbar)), params);Ct(1) = (1-x(1))*Yt(1);
 Kt1(1) = x(1)*Yt(1)+(1-Delta)*K0;
 for i = 1:1:T-2;
-    Yt(1+i) = ProductionFunction(Kt1(i), (1-x(2*(T-1)+1+i)-x(2*(T-1)+T+1+i))*N, energy(1+i), exp((-gamma(1+i))*(St(1+i)-Sbar)), params);Kt1(1+i) = x(1+i)*Yt(1+i)+(1-Delta)*Kt1(i);
+    Yt(1+i) = ProductionFunction(Kt1(i), (1-x(2*(T-1)+1+i)-x(2*(T-1)+T+1+i))*N, params.A_E(1+i)*energy(1+i), exp((-gamma(1+i))*(St(1+i)-Sbar)), params);Kt1(1+i) = x(1+i)*Yt(1+i)+(1-Delta)*Kt1(i);
     Ct(1+i) = (1-x(i+1))*Yt(1+i); 
 end
 
-Yt(T) = ProductionFunction(Kt1(T-1), (1-x(2*(T-1)+T)-x(2*(T-1)+2*T))*N, energy(T), exp((-gamma(T))*(St(T)-Sbar)), params);theta = x(T-1);
+Yt(T) = ProductionFunction(Kt1(T-1), (1-x(2*(T-1)+T)-x(2*(T-1)+2*T))*N, params.A_E(T)*energy(T), exp((-gamma(T))*(St(T)-Sbar)), params);theta = x(T-1);
 Ct(T) = Yt(T)*(1-theta);
 Kt1(T) = theta*Yt(T)+(1-Delta)*Kt1(T-1);
 
@@ -104,7 +104,7 @@ for i = 1:1:n;
     At(T+i) = At(T+i-1)*(1+gZd_y(T+i-1))^(1-alpha-v);
     oiln(i) = ex_Oil*x(2*(T-1))*((1-ex_Oil)^i);
     En(i) = ((kappa1*oiln(i)^rho)+(kappa2*(coal(T)*(1+gZ_en)^i)^rho)+(kappa3*(wind(T)*(1+gZ_en)^i)^rho))^(1/rho);
-    Ytn(i) = ProductionFunction(Ktn(i), (1-x(2*(T-1)+2*T)-x(2*(T-1)+T))*N, En(i), exp((-gamma(T))*(St(T)-Sbar)), params); Ct(T+i) = (1-theta)*Ytn(i);
+    Ytn(i) = ProductionFunction(Ktn(i), (1-x(2*(T-1)+2*T)-x(2*(T-1)+T))*N, params.A_E(T+i)*En(i), exp((-gamma(T))*(St(T)-Sbar)), params); Ct(T+i) = (1-theta)*Ytn(i);
     Ktn(i+1) = theta*Ytn(i)+(1-Delta)*Ktn(i);
     Yt(T+i) = Ytn(i);
 end

@@ -27,6 +27,7 @@ arguments
 
     params.gZa_en (1,1) double = 0.02
     params.gAa_y (1,1) double = 0
+    params.gAa_E (1,1) double = 0     % annual growth of energy-augmenting efficiency
     params.A2t (1,1) double = 7693
     params.A3t (1,1) double = 1311
     params.R0 (1,1) double = 253.8
@@ -59,21 +60,18 @@ end
 % Time
 y = (1:1:params.T);
 y(1) = 2010;   
-
 for i = 1:1:params.T-1
     y(1+i) = 2010+((i)*10);
 end
     
 y2 = (1:1:params.T+params.n);
 y2(1) = 2010;    
-
 for i = 1:1:params.T-1+params.n
         y2(1+i) = 2010+((i)*10);
 end
 
 % Climate
 gamma = zeros(params.T,1);
-
 for i = 1:1:params.T
     gamma(i) = params.gamma;
 end
@@ -83,31 +81,30 @@ kappa3 = 1 - params.kappa1 - params.kappa2;
 E0_2008 = ((params.kappa1*params.E1_2008^params.rho) + ...
            (params.kappa2*params.E2_2008^params.rho) + ...
            (kappa3*params.E3_2008^params.rho))^(1/params.rho);
-
 E0 = E0_2008*10;
 
+% Efficiency and Technology
 gZ_en = ((1+params.gZa_en)^10)-1;
 gZa_y = ((1+params.gAa_y)^(1/(1-params.alpha-params.v)))-1;
 gAd_y = ((1+params.gAa_y)^10)-1;
 gZd_y = ones(params.T+params.n,1)*(((1+gZa_y)^10)-1);
 
+A_E = (1 + params.gAa_E).^(10*((1:params.T+params.n)' - 1));   % 1 in the first period
+
 
 A2t = zeros(params.T,1);
 A2t(1) = params.A2t;
-
 for i = 1:1:params.T-1
     A2t(i+1) = A2t(i)*(1+gZ_en);
 end
 
 ypsilon = zeros(params.T,1);
-
 for i = 1:1:params.T+params.n
     ypsilon(i) = 1/(1+exp((-1)*(params.a_yps+params.b_yps*(i-1)*10)));
 end
 
 A3t = zeros(params.T,1);
 A3t(1) = params.A3t;
-
 for i = 1:1:params.T-1
     A3t(i+1) = A3t(i)*(1+gZ_en);
 end
@@ -150,6 +147,7 @@ params.E0_2008 = E0_2008;
 params.E0 = E0;
 params.A0 = A0;
 params.gZ_en = gZ_en;
+params.A_E = A_E;
 params.gZa_y = gZa_y;
 params.gAd_y = gAd_y;
 params.gZd_y = gZd_y;
