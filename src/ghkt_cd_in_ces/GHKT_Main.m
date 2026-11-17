@@ -4,10 +4,19 @@
 
 if ~exist('rp','var'), rp = -1e-6; end                  % the only thing you change between runs
 if ~exist('pf','var'), pf = "CDinCES"; end
-p = LoadParams(rho_prod = rp, pf_type = pf);
+
+
+d_ = LoadParams();
+if ~exist('g_E','var'), g_E = d_.gAa_E; end
+if ~exist('v_in','var'), v_in = d_.v; end
+p = LoadParams(rho_prod = rp, pf_type = pf, gAa_E = g_E, v = v_in);
+%% Production function
 if pf == "CESinCD", pf_tag = "KExL"; else, pf_tag = "KLxE"; end
 scenario = [char(pf_tag) '_rho' strrep(strrep(sprintf('%g',rp),'-','m'),'.','p')];
 if exist('scenario_name','var'), scenario = scenario_name; end
+%% Energy growth
+if g_E ~= d_.gAa_E, scenario = [scenario '_gE' strrep(sprintf('%g',g_E),'.','p')]; end
+if v_in ~= d_.v, scenario = [scenario '_v' strrep(sprintf('%g',v_in),'.','p')]; end
 
 A2t = p.A2t; A3t = p.A3t; At = p.At; Delta = p.Delta; K0 = p.K0; N = p.N; R0 = p.R0;
 S1_2000 = p.S1_2000; S2_2000 = p.S2_2000; Sbar = p.Sbar; T = p.T; alpha = p.alpha; beta = p.beta;

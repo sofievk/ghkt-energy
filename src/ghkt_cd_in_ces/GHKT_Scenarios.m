@@ -1,8 +1,8 @@
 % GHKT_SCENARIOS Run GHKT_Main for several values of rho_prod.
-% Saves results/results_<pf>_rho<value>.mat, so nothing is overwritten.
-% Optional settings before running: pf, rho_list, start_first.
+% Saves results/results_<structure>_rho<value>[_gE<value>][_v<value>].mat
+% Optional settings before running: pf, rho_list, start_first, g_E, v_in.
 if ~exist('pf','var'), pf = "CDinCES"; end
-if ~exist('rho_list','var'), rho_list = [-1e-6, -0.667, -2.333, -9, -50]; end
+if ~exist('rho_list','var'), rho_list = [-1e-6, -0.667]; end
 if ~exist('start_first','var'), start_first = "saved"; end
 for s_idx = 1:numel(rho_list)
     rp = rho_list(s_idx);
@@ -13,4 +13,4 @@ for s_idx = 1:numel(rho_list)
     close all
     fprintf('%s rho_prod = %g: exitflag %d, fval %g\n', pf, rp, exitflag, fval);
 end
-clear rp start_mode x_prev s_idx rho_list start_first scenario_name pf
+clear rp start_mode x_prev s_idx rho_list start_first scenario_name pf g_E v_in d_
